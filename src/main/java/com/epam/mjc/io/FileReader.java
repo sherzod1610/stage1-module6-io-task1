@@ -14,11 +14,11 @@ public class FileReader {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        profile.setName(array[1]);
-        profile.setAge(Integer.valueOf(array[3]));
-        profile.setEmail(array[5]);
-        profile.setPhone(Long.valueOf(array[7]));
-        return new Profile();
+        profile.setName(array[0].split(" ")[1]);
+        profile.setAge(Integer.valueOf(array[3].split(" ")[1]));
+        profile.setEmail(array[5].split(" ")[1]);
+        profile.setPhone(Long.valueOf(array[7].split(" ")[1]));
+        return profile;
     }
 
     public String readFile(File file) throws FileNotFoundException {
@@ -35,9 +35,10 @@ public class FileReader {
         }
         return a;
     }
-    
+
 
     public String[] getInformation(String text){
-        return new String[]{Arrays.toString(text.split(" "))};
+
+        return text.split("\n");
     }
 }
