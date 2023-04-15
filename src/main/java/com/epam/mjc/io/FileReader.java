@@ -2,7 +2,6 @@ package com.epam.mjc.io;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class FileReader {
@@ -13,31 +12,22 @@ public class FileReader {
         String[] array;
         try {
             array = fileReader.getInformation(fileReader.readFile(file));
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         profile.setName(array[0].split(" ")[1]);
-        profile.setAge(Integer.valueOf(array[3].split(" ")[1]));
-        profile.setEmail(array[5].split(" ")[1]);
-        profile.setPhone(Long.valueOf(array[7].split(" ")[1]));
+        profile.setAge(Integer.valueOf(array[1].split(" ")[1]));
+        profile.setEmail(array[2].split(" ")[1]);
+        profile.setPhone(Long.valueOf(array[3].split(" ")[1]));
         return profile;
     }
 
-    public String readFile(File file) throws FileNotFoundException {
+    public String readFile(File file) throws IOException {
         String a = "";
-        FileInputStream fileInputStream = new FileInputStream(file);
-        try {
+        try (FileInputStream fileInputStream = new FileInputStream(file)) {
             int ch;
             while ((ch = fileInputStream.read()) != -1) {
                 a += (char) ch;
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            try {
-                fileInputStream.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
         }
         return a;
