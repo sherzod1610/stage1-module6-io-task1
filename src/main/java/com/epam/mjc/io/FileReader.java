@@ -7,9 +7,9 @@ import java.io.IOException;
 
 public class FileReader {
 
-    public Profile getDataFromFile(File file){
+    public Profile getDataFromFile(File file) {
         FileReader fileReader = new FileReader();
-        Profile profile = null;
+        Profile profile = new Profile();
         String[] array;
         try {
             array = fileReader.getInformation(fileReader.readFile(file));
@@ -25,21 +25,26 @@ public class FileReader {
 
     public String readFile(File file) throws FileNotFoundException {
         String a = "";
-
+        FileInputStream fileInputStream = new FileInputStream(file);
         try {
-            FileInputStream fileInputStream = new FileInputStream(file);
             int ch;
-            while ((ch = fileInputStream.read()) != -1){
-                a += (char)ch;
+            while ((ch = fileInputStream.read()) != -1) {
+                a += (char) ch;
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                fileInputStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         return a;
     }
 
 
-    public String[] getInformation(String text){
+    public String[] getInformation(String text) {
 
         return text.split("\n");
     }
